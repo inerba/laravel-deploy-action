@@ -1,0 +1,17 @@
+name: CD
+
+on:
+  push:
+    branches: [production]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        with:
+          username: USERNAME ACCESSO SSH
+          host: HOSTNAME O IP DEL SERVER
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: 'cd /home/utente/web/miosito.tld/public_html && ./server_deploy.sh'

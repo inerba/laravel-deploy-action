@@ -1,13 +1,16 @@
-# Deploy con Github actions
+# Deploy Automatico di Laravel con GitHub Actions
+
+Questa guida è progettata per aiutarvi a automatizzare il processo di deployment, garantendo una consegna fluida e coerente della vostra applicazione web al server. Segui questi semplici passi per configurare il tuo flusso di lavoro di deployment.
 
 Prerequisiti:
-- Un webserver configurato e pronto
-- Un repo GitHub del progetto
+- Un web server configurato e pronto all'uso con accesso ssh
+- Il repository del vostro progetto Laravel su GitHub
 
-Copia i file presenti in questo repository e segui le istruzioni:
+## Introduzione:
+Per iniziare, copia (non clonare) i file di questo repository nel tuo progetto e segui le istruzioni dettagliate di seguito per impostare il tuo processo di deployment.
 
-## 1. La GitHub Action
-Prima di tutto rinomina la cartella `github` in `.github` e aggiorna il file `.github/workflows/main.yml` con i tuoi dati
+## Passo 1: Configura il Workflow di GitHub Action
+Rinomina la cartella `github` in `.github` e aggiorna il file `.github/workflows/main.yml` con i dettagli di accesso ssh del tuo webserver. Questa configurazione YAML definisce il vostro workflow di Continuous Deployment (CD).
 
 ```yaml
 name: CD
@@ -36,10 +39,15 @@ jobs:
 > Secret: La tua password
 
 
-## 2. Script che verrà lanciato da Github Actions
-Controlliamo lo script per **Github Actions** `server_deploy.sh` e rendiamolo eseguibile con:
-`git update-index --chmod=+x server_deploy.sh`
+## Passo 2: Prepara lo Script di Deployment per GitHub Actions
+Rivedi e rendi eseguibile lo script server_deploy.sh per assicurarti che GitHub Actions possa eseguirlo senza problemi.
 
+``` 
+chmod +x server_deploy.sh
+git update-index --chmod=+x server_deploy.sh
+```
+
+Contenuto del file `server_deploy.sh`
 ```sh
 #!/bin/sh
 set -e # Interrompe lo script in caso di errore
@@ -73,9 +81,15 @@ echo "Application deployed!"
 
 ```
 
-## 3. Script per il Deploy Locale
+Rendi lo script eseguibile con:
+``` 
+chmod +x server_deploy.sh
+git update-index --chmod=+x server_deploy.sh
+```
 
-`deploy.sh`
+## Passo 3: Script di Deployment Locale
+
+Contenuto del file `deploy.sh`
 ```sh
 #!/bin/sh
 set -e # Interrompe lo script in caso di errore
@@ -98,15 +112,19 @@ git push origin production
 git checkout master
 ```
 
-## 4. Prepariamo il server remoto
+## Passo 4: Prepara il Tuo Server Remoto
+
 ```sh
 git clone --depth 1 --branch production git@github.com:username/nome_repo.git . 
 chmod +x server_deploy.sh
 composer install
 ```
+> L'opzione --depth 1 limita la profondità della clone all'ultimo commit, risparmiando spazio pur mantenendo l'efficienza del deployment.
 
-- La clonazione con l'opzione `--depth 1` crea una copia di lavoro del repository Git, ma limita la profondità della storia all'ultimo commit.
-- Serve fondamentalmente per risparmiare spazio, tanto la storia completa ce l'hai su GitHub!
 
-## 5. Adesso possiamo lanciare deploy.sh in Locale
-Ogni volta che dovrai eseguire un deploy ti basterà eseguire il comando `sh deploy.sh` dalla tua macchina locale.
+## Passo 5: Avvia il Deployment Locale
+Ogni volta che sei pronto per eseguire un deployment, ti basterà eseguire il comando `sh deploy.sh` dalla tua macchina locale.
+
+---
+
+Seguendo questa guida automatizzi il deployment del tuo progetto Laravel con GitHub Actions, rendendo il processo veloce, sicuro e ripetibile. Questo ti permette di concentrarti maggiormente sullo sviluppo, assicurandoti che le nuove versioni della tua applicazione siano sempre facilmente distribuibili al server. Semplifica il tuo workflow di deployment e mantieni alta l'efficienza del tuo lavoro di sviluppo.

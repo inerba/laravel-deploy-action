@@ -112,7 +112,15 @@ git push origin production
 git checkout master
 ```
 
-## Passo 4: Prepara il Tuo Server Remoto
+## Passo 4: Crea il branch production
+
+```sh
+git checkout -b production
+git push origin production
+git checkout master
+```
+
+## Passo 5: Prepara il Tuo Server Remoto
 
 ```sh
 git clone --depth 1 --branch production git@github.com:username/nome_repo.git . 
@@ -122,7 +130,7 @@ composer install
 > L'opzione --depth 1 limita la profondità della clone all'ultimo commit, risparmiando spazio pur mantenendo l'efficienza del deployment.
 
 
-## Passo 5: Avvia il Deployment Locale
+## Adesso puoi avviare il Deployment Locale
 Ogni volta che sei pronto per eseguire un deployment, ti basterà eseguire il comando `sh deploy.sh` dalla tua macchina locale.
 
 ---
